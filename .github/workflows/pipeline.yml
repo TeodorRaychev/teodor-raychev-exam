@@ -36,3 +36,20 @@ jobs:
         with:
           service-id: ${{ secrets.SERVICE_ID }}
           api-key: ${{ secrets.RENDER_TOKEN }}
+
+  ui_test-teodor-raychev-exam:
+    needs: build-teodor-raychev-exam
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: UI tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "npm"
+      - name: Build
+        run: npm ci
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Run UI tests
+        run: NODE_ENV=${{ vars.URL }} npm run test:ui
