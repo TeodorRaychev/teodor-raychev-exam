@@ -25,3 +25,14 @@ jobs:
         run: npm run test:unit
       - name: Display Softuni Username @teodor_raychev
         run: echo "Teodor Raychev"
+
+  deploy-teodor-raychev-exam:
+    needs: build-teodor-raychev-exam
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        if: contains(github.ref, 'main')
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_TOKEN }}
